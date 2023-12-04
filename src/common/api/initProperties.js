@@ -1,0 +1,1 @@
+export const API_URL = 'https://api-gtasa-veh.vercel.app/api';
