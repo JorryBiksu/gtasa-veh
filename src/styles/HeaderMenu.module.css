@@ -1,3 +1,32 @@
+.userInfoContainer {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center items horizontally */ /* Adjust the right margin of the details container as needed */
+}
+
+.link {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+}
+
+.userAva {
+  margin-right: 5px;
+  color: white; /* Adjust the right margin of the Avatar as needed */
+}
+.userLink {
+  color: white; /* Adjust the right margin of the Avatar as needed */
+}
+
+/* Add any other styling for userLink, or other elements */
+
+
+/* Add any other styling for userAva, userLink, or other elements */
+
 
 .header {
   position: fixed;
@@ -27,7 +56,7 @@
   padding: rem(8px) rem(12px);
   border-radius: var(--mantine-radius-sm);
   text-decoration: none;
-  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
+  color: white;
   font-size: var(--mantine-font-size-sm);
 
   @mixin hover {
@@ -48,3 +77,13 @@
   /* margin-left: rem(10px); */
 }
 
+.menuItem {
+  color: var(--mantine-color-dark-4);
+}
+
+.dropdown {
+  /* Customize the styles for the dropdown here */
+  background-color: white;
+  border: 1px solid var(--mantine-color-gray-3);
+  /* Add any other styles as needed */
+}

@@ -1,61 +1,29 @@
 import { Carousel } from '@mantine/carousel';
-import { notifications } from '@mantine/notifications';
 import classes from '../../../styles/Home.module.css';
 import { Container, Title } from '@mantine/core';
 import { useRef } from 'react';
-import autoplay from 'embla-carousel-autoplay';  // Adjust the import
+import Autoplay from 'embla-carousel-autoplay';
 import { deleteProduct, getProducts } from "@/common/query/product";
 import Layout from "@/components/Layout";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
-import { useState, useEffect } from "react";
-import { withAdminAuth } from '@/components/Layout/auth/authadmin';
-import checkLoggedInUser from '@/components/Layout/auth/ceklogin';
-import { useRouter } from 'next/router';
+import { useState } from "react";
 
-export function AdminDashboard({ user }) {
-  const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-
-  useEffect(() => {
-    const user = checkLoggedInUser();
-    if (user) {
-      setIsLoggedIn(true);
-      setUserInfo(user);
-      console.log('userInfo:', user);
-    }
-  }, []);
-
-  useEffect(() => {
-    // Check user role here
-    if (userInfo && userInfo.role !== 'admin') {
-      // Redirect or handle access denied
-      console.log('Access denied');
-      notifications.show({
-        color: 'red',
-        title: '⚠Sorry!',
-        message: 'You are not admin, cannot access this page',
-      })
-      router.push('/dashboard');
-
-    }
-  }, [userInfo]);
-
-  const autoplayInstance = useRef(autoplay({ delay: 4000 }));  // Adjust the initialization
-
+export function UserDashboard() {
+  const autoplay = useRef(Autoplay({ delay: 4000 }));
+  
   return (
     <div className={classes.hero1}>
       <Container className={classes.container1} size="fluid" style={{ margin: 0, padding: 0 }}>
         <Carousel 
-          plugins={[autoplayInstance.current]}  // Adjust the reference
-          onMouseEnter={autoplayInstance.current.stop}
-          onMouseLeave={autoplayInstance.current.reset}
+          plugins={[autoplay.current]}
+          onMouseEnter={autoplay.current.stop}
+          onMouseLeave={autoplay.current.reset}
           slideSize="100%" 
-          height="50vw"
+          height="50vw"  // Set a relative height using viewport units
           align="center"
           controlsOffset="md" 
-          controlSize="4vw"
+          controlSize="4vw"  // Set a relative control size using viewport units
           loop
         >
           <Carousel.Slide>

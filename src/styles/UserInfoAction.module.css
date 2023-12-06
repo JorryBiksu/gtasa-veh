@@ -1,0 +1,73 @@
+/* UserInfoAction.module.css */
+.userprofile{
+    position: fixed;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
+  backdrop-filter: blur(5px);
+  background-image: url(https://i.ibb.co/pnqqdz8/blur-back.jpg);
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+/* UserInfoAction.module.css */
+
+  
+.cardsection{
+    margin-top: -11;
+    padding: 10;
+    background-image: url(https://i.ibb.co/pnqqdz8/blur-back.jpg);
+}
+.container {
+
+    backdrop-filter: blur(5px);
+    margin: 0;
+    margin-top: 100px;
+  width: 100%; /* Make the container 100% wide */
+  max-width: 400px; /* Set a maximum width for the container */
+  box-sizing: border-box; /* Include padding and border in the total width */
+  padding: 20px; /* Adjust padding as needed */
+  text-align: center;
+  align-self: flex-start; /* Center the text within the container */
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    height: 100vh; /* Adjust height for small screens */
+    padding-bottom: calc(var(--mantine-spacing-xl) * 3);
+  }
+}
+/* UserInfoAction.module.css */
+
+.imageContainer {
+    position: relative;
+  }
+  
+  .avatarOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure the Avatar appears above the Image */
+  }
+  
+  .avatar {
+    /* Add any specific styles for the Avatar */
+  }
+  
+  
+  .username {
+    margin-top: 8px; /* Adjust the top margin as needed */
+  }
+  
+  .role{
+    margin-top: -5px;
+  }
+
+  .ca{
+    margin-top: 15px;
+  }
+  .logoutButton {
+    margin-top: 10px; /* Adjust the top margin as needed */
+  }
+  

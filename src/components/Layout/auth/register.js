@@ -3,7 +3,8 @@ import classes from '../../../styles/AuthenticationTitle.module.css';
 import Link from 'next/link';
 
 export function RegistAuth() {
-    return (<Container size={420} my={40}>
+    return (
+    <Container size={420} my={40}>
         <Title ta="center" className={classes.title}>
           Create Your Account
         </Title>

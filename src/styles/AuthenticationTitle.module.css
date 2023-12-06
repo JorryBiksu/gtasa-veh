@@ -1,4 +1,38 @@
-.title {
-    font-family: Greycliff CF, var(--mantine-font-family);
-    font-weight: 900;
+.auth {
+  position: fixed;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
+  backdrop-filter: blur(5px);
+  background-image: url(https://i.ibb.co/pnqqdz8/blur-back.jpg);
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.container {
+  margin: 0;
+  width: 100%; /* Make the container 100% wide */
+  max-width: 400px; /* Set a maximum width for the container */
+  box-sizing: border-box; /* Include padding and border in the total width */
+  padding: 20px; /* Adjust padding as needed */
+  text-align: left;
+  align-self: flex-start; /* Center the text within the container */
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    height: 100vh; /* Adjust height for small screens */
+    padding-bottom: calc(var(--mantine-spacing-xl) * 3);
   }
+}
+
+.title {
+  font-family: 'Greycliff CF', var(--mantine-font-family);
+  font-weight: 900;
+   /* Set text color for better visibility on blurred background */
+}
+
+.notification {
+  margin-top: 20px; /* Adjust the margin-top value based on your design */
+}

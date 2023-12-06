@@ -1,85 +1,116 @@
-import { useState } from 'react';
-import { Menu, Group, Center, Button, MantineProvider, Text } from '@mantine/core';
+//header.js
+import { useEffect, useState } from 'react';
+import { Menu, Group, Center, Button, MantineProvider, Text, Avatar } from '@mantine/core';
 import { IconChevronDown } from '@tabler/icons-react';
 import { Logo } from './_logo';
 import classes from '../../styles/HeaderMenu.module.css';
 import Link from 'next/link';
-
-
+import checkLoggedInUser from './auth/ceklogin';
+import { useRouter } from 'next/router';
 
 const links = [
-  { link: '/about', label: 'Features' },
+  { link: '/dashboard', label: 'Dashboard' },
   {
     link: '#1',
-    label: 'Learn',
+    label: 'Model',
     links: [
-      { link: '/docs', label: 'Documentation' },
-      { link: '/resources', label: 'Resources' },
-      { link: '/community', label: 'Community' },
-      { link: '/blog', label: 'Blog' },
+      { link: '/docs', label: 'Cars' },
+      { link: '/resources', label: 'Bike' },
+      { link: '/community', label: 'Boat' },
+      { link: '/blog', label: 'Aircraft' },
     ],
   },
-  { link: '/about', label: 'About' },
-  { link: '/pricing', label: 'Pricing' },
+  { link: '/about', label: 'Shop Now' },
+  { link: '/pricing', label: 'About' },
   {
     link: '#2',
-    label: 'Support',
+    label: 'Panel',
     links: [
-      { link: '/faq', label: 'FAQ' },
-      { link: '/demo', label: 'Book a demo' },
+      { link: '/faq', label: 'Product' },
+      { link: '/demo', label: 'User' },
       { link: '/forums', label: 'Forums' },
     ],
   },
 ];
 
 export function HeaderMenu() {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (user) {
+      setIsLoggedIn(true);
+      setUserInfo(user);
+    }
+  }, []);
+
   const handleLogin = () => {
-    setIsLoggedIn(true);
-    setUserInfo({ username: 'User123' }); // Buka modal setelah login
+    const user = checkLoggedInUser();
+    if (user) {
+      setIsLoggedIn(true);
+      setUserInfo(user);
+    }
   };
 
-  const items = links.map((link) => {
-    const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+  const filteredLinks = links.map(linkItem => {
+    if (linkItem.links) {
+      linkItem.links = linkItem.links.filter(sublink => {
+        return userInfo?.role === 'admin' || sublink.link !== '/admin/dashboard';
+      });
+
+      return {
+        ...linkItem,
+        links: linkItem.links.length > 0 ? linkItem.links : null,
+      };
+    }
+
+    return userInfo?.role === 'admin' || linkItem.link !== '/admin/dashboard' ? linkItem : null;
+  }).filter(Boolean);
+
+  const items = filteredLinks.map(link => {
+    const menuItems = link.links?.map(item => (
+      <Menu.Item key={item.link}>
+        <Link href={item.link} style={{textDecoration: 'none'}} passHref>
+          <span className={classes.menuItem}>
+            {item.label}
+          </span>
+        </Link>
+      </Menu.Item>
     ));
-  
+
     if (menuItems) {
       return (
-        
         <Menu key={link.label} trigger="hover" transitionProps={{ exitDuration: 0 }}>
           <Menu.Target>
-            <a
-              href={link.link}
-              className={classes.link}
-              onClick={(event) => event.preventDefault()}
-            >
-              <Center>
-                <span className={classes.linkLabel}>{link.label}</span>
-                <IconChevronDown size="0.9rem" stroke={1.5} />
-              </Center>
-            </a>
+            <Link href={link.link} style={{textDecoration: 'none'}} passHref>
+              <span className={classes.link}>
+                <Center>
+                  <span className={classes.linkLabel}>
+                    {link.label}
+                  </span>
+                  <IconChevronDown size="0.9rem" stroke={1.5} />
+                </Center>
+              </span>
+            </Link>
           </Menu.Target>
-          <Menu.Dropdown zIndex={1000}>{menuItems}</Menu.Dropdown>
+          <Menu.Dropdown zIndex={1000} className={classes.dropdown}>
+            {menuItems}
+          </Menu.Dropdown>
         </Menu>
       );
     }
-  
+
     return (
-      <a
-        key={link.label}
-        href={link.link}
-        className={classes.link}
-        onClick={(event) => event.preventDefault()}
-      >
-        {link.label}
-      </a>
+      <Link key={link.label} href={link.link} style={{textDecoration: 'none'}} passHref>
+        <span className={classes.link}>
+          {link.label}
+        </span>
+      </Link>
     );
   });
-
   return (
     <MantineProvider withGlobalStyles withCSSVariables>
       <header className={classes.header}>
@@ -93,11 +124,18 @@ export function HeaderMenu() {
               {items}
             </Group>
             <Group visiblefrom="sm">
-              {isLoggedIn ? (
-                <Group>
-                  <span className={classes.userInfo}>{userInfo.username}</span>
-                  <Button variant="default">Log out</Button>
-                </Group>
+            {isLoggedIn ? (
+                <Group className={classes.userInfoContainer}>
+                <div className={classes.userDetails}>
+                  <Link href="/userprofile" className={classes.link}>
+                    <Avatar variant="transparent" radius="sm" src="" className={classes.userAva} />
+                    <span className={classes.userLink}>
+                      {userInfo && userInfo.username}
+                    </span>
+                  </Link>
+                </div>
+        
+              </Group>
               ) : (
                 <Group>
                   <Link href="/signin">

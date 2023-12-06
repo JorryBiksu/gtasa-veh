@@ -1,9 +1,9 @@
-// pages/index.js
+// pages/dashboard.js
 import Layout from '@/components/Layout/Layout';
-import { Demo } from '@/module/admin/dashboard';
+import { UserDashboard } from '@/module/user/dashboard';
 const Home = () => (
   <Layout>
-    <Demo />
+    <UserDashboard />
   </Layout>
 );
 
