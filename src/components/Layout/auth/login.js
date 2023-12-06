@@ -21,7 +21,7 @@ const Login = () => {
   const mutation = useMutation(login, {
     onSuccess: (data) => {
       localStorage.setItem('user', JSON.stringify(data));
-      const welcomeMessage = `Hello, ${data.username}!`;
+      const welcomeMessage = 'Hello, ${data.username}!';
       // Redirect to the dashboard based on the user role or any other logic
       if (data.role === 'admin') {
         router.push('/admin/dashboard');
