@@ -66,7 +66,7 @@ const Login = () => {
           Don&apos;t have an account?{' '}
           <Link href="/signup">
           <Anchor size="sm" component="button">
-            Sign in
+            Sign up
           </Anchor>
           </Link>
         </Text>
