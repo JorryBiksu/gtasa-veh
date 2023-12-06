@@ -63,7 +63,7 @@ const Login = () => {
           Welcome Back!
         </Title>
         <Text c="black" size="sm" ta="center" mt={5}>
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup">
           <Anchor size="sm" component="button">
             Sign in
