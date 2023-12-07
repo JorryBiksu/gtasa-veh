@@ -1,6 +1,6 @@
 // components/Layout/auth/login.js
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient} from 'react-query';
 import { TextInput, PasswordInput, Checkbox, Anchor, Paper, Title, Text, Container, Group, Button, Notification, } from '@mantine/core';
 import classes from '../../../styles/AuthenticationTitle.module.css';
 import Link from 'next/link';
@@ -18,6 +18,7 @@ const Login = () => {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const queryClients = useQueryClient(); // Use useQueryClient hook to get the query client instance
   const mutation = useMutation(login, {
     onSuccess: (data) => {
       localStorage.setItem('user', JSON.stringify(data));

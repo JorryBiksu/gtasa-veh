@@ -1,22 +1,38 @@
 import { Carousel } from '@mantine/carousel';
 import { notifications } from '@mantine/notifications';
 import classes from '../../../styles/Home.module.css';
-import { Container, Title } from '@mantine/core';
+import { Container, Title, ActionIcon, Group, Text } from '@mantine/core';
 import { useRef } from 'react';
 import autoplay from 'embla-carousel-autoplay';  // Adjust the import
-import { deleteProduct, getProducts } from "@/common/query/product";
-import Layout from "@/components/Layout";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
 import { useState, useEffect } from "react";
-import { withAdminAuth } from '@/components/Layout/auth/authadmin';
 import checkLoggedInUser from '@/components/Layout/auth/ceklogin';
 import { useRouter } from 'next/router';
+import CustomCard from '@/components/Layout/card';
+import { IconEye } from "@tabler/icons-react";
+import { useQuerySaveeh } from '@/features/home/service';
 
 export function AdminDashboard({ user }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+
+
+// Gunakan fungsi-fungsi tersebut sesuai kebutuhan
+
+  
+
+  const [page, setPage] = useState(1);
+  const [skip, setSkip] = useState(0);
+ 
+  const onHandleChangePage = (page) => {
+    const from = (page - 1) * 10;
+    setPage(page)
+    setSkip(from)
+  }
+  const { data, isFetching } = useQuerySaveeh(skip);
+  console.log (data, isFetching );
 
   useEffect(() => {
     const user = checkLoggedInUser();
@@ -86,38 +102,15 @@ export function AdminDashboard({ user }) {
         </Carousel>
         <Container>
         <main>
-          <section 
-            style={{
-              display:"flex", 
-              justifyContent:"space-between",
-              alignItems:"center"
-            }}>
-            <h1>Explore Vehicles</h1>
-          </section>
-          <section>
-            <DataTable
-              withBorder
-              minHeight={180}
-              columns={[
-                {
-                  accessor: 'title',
-                  title: 'Title',
-                  width: 160,
-                },
-                {
-                  accessor: 'category',
-                  title: 'Category',
-                  width: 160,
-                },
-                {
-                  accessor: 'description',
-                  title: 'Description',
-                  width: 160,
-                },
-              ]}
-            />
-          </section>
-        </main>
+      <h1>Halaman Home</h1>
+      <section>
+  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+    {data && data.data && data.data.saveh.map((item) => (
+      <CustomCard key={item.id} data={item} />
+    ))}
+  </div>
+</section>
+    </main>
         </Container>
       </Container>
     </div>

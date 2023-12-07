@@ -58,15 +58,24 @@ export function HeaderMenu() {
   const filteredLinks = links.map(linkItem => {
     if (linkItem.links) {
       linkItem.links = linkItem.links.filter(sublink => {
+      // Update the link for admin role
+        if (userInfo?.role === 'admin' && sublink.link === '/dashboard') {
+          sublink.link = '/admin/dashboard';
+        }
         return userInfo?.role === 'admin' || sublink.link !== '/admin/dashboard';
       });
-
+  
       return {
         ...linkItem,
         links: linkItem.links.length > 0 ? linkItem.links : null,
       };
     }
-
+  
+    // Update the link for admin role
+    if (userInfo?.role === 'admin' && linkItem.link === '/dashboard') {
+      linkItem.link = '/admin/dashboard';
+    }
+  
     return userInfo?.role === 'admin' || linkItem.link !== '/admin/dashboard' ? linkItem : null;
   }).filter(Boolean);
 
