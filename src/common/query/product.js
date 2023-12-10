@@ -75,12 +75,6 @@ export async function getOrdersBySkip(skip, userId, admin, sortBy = { field: 'id
     apiUrl += `&createdBy=${userId}`;
   }
 
-  const cachedData = localStorage.getItem(apiUrl);
-
-  if (cachedData) {
-    return JSON.parse(cachedData);
-  }
-
   const data = await API.get(apiUrl);
 
   // Cache the data in localStorage

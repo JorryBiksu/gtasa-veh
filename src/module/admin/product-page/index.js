@@ -1,6 +1,6 @@
 import { deleteSaveh, getSavehBySkip } from "@/common/query/product";
 import Layout from "@/components/Layout/Layout";
-import { Container, ActionIcon, Button, Group, Modal, Text, Title } from "@mantine/core";
+import { Box, Container, ActionIcon, Button, Group, Modal, Text, Title } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
@@ -137,7 +137,8 @@ export default function ProductPage(){
               Add Product
             </Button>
           </section>
-          <section>
+          <section className={classes.containerup}>
+          <Box sx={{ height: 250 }} className={classes.containerup}>
             <DataTable             
               minHeight={510}
               columns={[
@@ -198,11 +199,12 @@ export default function ProductPage(){
               records={saveh.data?.saveh}
               fetching={isFetching}
               totalRecords={saveh.data?.totalData}
-              recordsPerPage={10}
+              recordsPerPage={5}
               page={page}
               onPageChange={(p) => onHandleChangePage(p)}
               sortBy={{ field: 'id', order: 'asc' }} 
             />
+            </Box>
           </section>
           </div>
           </Container>

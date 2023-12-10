@@ -1,6 +1,6 @@
 import { deleteOrder, getOrderBySkip, getOrdersBySkip, getOrdesrBySkip } from "@/common/query/product";
 import Layout from "@/components/Layout/Layout";
-import { Container, ActionIcon, Button, Group, Modal, Text, Title } from "@mantine/core";
+import { Container, ActionIcon, Button, Group, Modal, Text, Title, Box } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
@@ -106,7 +106,9 @@ export default function OrderPage(){
       note: data.note,
       status: data.status,
       id: data.id,
+      
     }
+    console.log("ajajaj", data.category)
     setDetailData(editData)
     setIsOpenEdit(isOpen)
   }
@@ -133,6 +135,7 @@ export default function OrderPage(){
             </Button>
           </section>
           <section>
+          <Box sx={{ height: 250 }} className={classes.containerup}>           
             <DataTable             
               minHeight={510}
               columns={[
@@ -201,6 +204,7 @@ export default function OrderPage(){
               onPageChange={(p) => onHandleChangePage(p)}
               sortBy={{ field: 'id', order: 'asc' }} 
             />
+            </Box>
           </section>
           </div>
           </Container>

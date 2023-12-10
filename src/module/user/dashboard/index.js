@@ -74,7 +74,7 @@ export function UserDashboard({ user }) {
         >
           <Carousel.Slide>
             <img
-              src="https://i0.wp.com/gomechanic.in/blog/wp-content/uploads/2022/10/Turismo.jpg?resize=1000%2C506&ssl=1"
+              src="https://i.ibb.co/dc8QrV6/1.png"
               alt="Gambar 1"
               className={classes.fullscreenImage}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
@@ -82,15 +82,15 @@ export function UserDashboard({ user }) {
           </Carousel.Slide>
           <Carousel.Slide>
             <img
-              src="https://i0.wp.com/gomechanic.in/blog/wp-content/uploads/2022/10/Turismo.jpg?resize=1000%2C506&ssl=1"
+              src="https://i.ibb.co/KL1wCKZ/3.png"
               alt="Gambar 2"
               className={classes.fullscreenImage}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '150%', objectFit: 'cover' }}
             />
           </Carousel.Slide>
           <Carousel.Slide>
             <img
-              src="https://i0.wp.com/gomechanic.in/blog/wp-content/uploads/2022/10/Turismo.jpg?resize=1000%2C506&ssl=1"
+              src="https://i.ibb.co/cNTw7YR/2.png"
               alt="Gambar 3"
               className={classes.fullscreenImage}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}

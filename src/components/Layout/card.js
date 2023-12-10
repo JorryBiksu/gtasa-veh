@@ -4,12 +4,13 @@ import Link from 'next/link'; // Jika menggunakan React Router, pastikan untuk m
 
 const CustomCard = ({ data }) => {
   return (
-    <Card shadow="sm" style={{ maxWidth: 300, marginBottom: 16, margin: 10 }}>
+    <Card shadow="sm" style={{ maxWidth: 300, marginBottom: 15, margin: 5 }}>
       <Image
         src={data.image}
         alt={data.name}
         fit="cover"
-        width={256}
+        width={244}
+        height={244}
       />
       <Title order={3}>{data.name}</Title>
       <Text>{data.category}</Text>
