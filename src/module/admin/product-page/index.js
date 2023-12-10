@@ -39,9 +39,11 @@ export default function ProductPage(){
       setUserInfo(user);
       console.log('userInfo:', user);
     }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
+  }, []);
+
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (!user) {
       notifications.show({
         color: 'red',
         title: '⚠Oops!',
@@ -128,7 +130,7 @@ export default function ProductPage(){
               justifyContent:"space-between",
               alignItems:"center"
             }}>
-            <Title order={1} style={{marginBottom:"10px"}}>List User</Title>
+            <Title order={1} style={{marginBottom:"10px"}}>List Product</Title>
             <Button
               onClick={()=>setIsOpenAdd(true)}
             >

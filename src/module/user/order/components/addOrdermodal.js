@@ -118,6 +118,11 @@ console.log('user :', loggedInUserId);
         radius="md"
         title="Add User"
         centered
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        yOffset="1vh" xOffset={0}
       >
      <form onSubmit={form.onSubmit((values) => mutate({ ...values, createdBy: loggedInUserId }))}>
         <TextInput

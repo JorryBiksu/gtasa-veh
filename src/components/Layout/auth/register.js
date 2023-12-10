@@ -65,6 +65,9 @@ export function RegistAuth() {
             loading={isLoading}>
             Sign up
           </Button>
+          <Text c="dimmed" size="sm" ta="center" mt={5} style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+            ← Go back
+          </Text>
         </Paper>
         </form>
       </Container>

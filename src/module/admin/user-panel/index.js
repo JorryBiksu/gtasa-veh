@@ -37,28 +37,20 @@ export default function UserPage(){
       setUserInfo(user);
       console.log('userInfo:', user);
     }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
-      notifications.show({
-        color: 'red',
-        title: '⚠Oops!',
-        message: 'You are not signed in yet, please signin first',
-      })
-      router.push("/signin");
-    }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
-      notifications.show({
-        color: 'red',
-        title: '⚠Oops!',
-        message: 'You are not signed in yet, please signin first',
-      })
-      router.push("/signin");
-    }
   },[]);
 
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (!user) {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+  }, []);
+  
   useEffect(() => {
     // Check user role here
     if (userInfo && userInfo.role !== 'admin') {

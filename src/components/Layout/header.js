@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 const links = [
   { link: '/dashboard', label: 'Dashboard' },
   { link: '/order', label: 'Shop Now', },
-  { link: '/pricing', label: 'About' },
+  { link: '/about', label: 'About' },
   {
     link: '#2',
     label: 'Panel',

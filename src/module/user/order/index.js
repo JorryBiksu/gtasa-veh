@@ -33,7 +33,7 @@ export default function OrderPage(){
     note: '',
     createdBy: '',
   });
- 
+  console.log('islogin',isLoggedIn)
   useEffect(() => {
     const user = checkLoggedInUser();
     if (user) {
@@ -41,9 +41,11 @@ export default function OrderPage(){
       setUserInfo(user);
       console.log('userInfo:', user);
     }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
+  }, []);
+
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (!user) {
       notifications.show({
         color: 'red',
         title: '⚠Oops!',
@@ -52,7 +54,6 @@ export default function OrderPage(){
       router.push("/signin");
     }
   }, []);
-
 
   const { data: order, refetch, isFetching } = useQuery(
     ['list-order', skip, userInfo?.id, userInfo?.role === 'admin'],
@@ -172,7 +173,7 @@ export default function OrderPage(){
                 },
                 {
                   accessor: 'createdBy',
-                  title: 'P',
+                  title: 'Created By',
                   width: 160,
                 },
                 {

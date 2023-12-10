@@ -3,10 +3,8 @@ import Link from 'next/link';
 import classes from '../../styles/FooterSimple.module.css';
 
 const links = [
-  { link: '#', label: 'Contact' },
-  { link: '#', label: 'Privacy' },
-  { link: '#', label: 'Blog' },
-  { link: '#', label: 'Careers' },
+  { link: '/about', label: 'About' },
+  { link: '/dashboard', label: 'Vehicles' },
 ];
 
 export function FooterSimple() {

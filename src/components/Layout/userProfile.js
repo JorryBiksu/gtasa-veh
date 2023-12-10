@@ -55,7 +55,9 @@ export function UserInfoAction() {
         <Button onClick={() => setShowModal(true)} variant="outline" color="red" className={styles.logoutButton}>
           Log out
         </Button>
-
+        <Text c="dimmed" size="sm" ta="center" mt={5} style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+            ← Go back
+          </Text>
         <Modal
           opened={showModal}
           withCloseButton

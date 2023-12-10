@@ -83,7 +83,19 @@ const Login = () => {
           <Button fullWidth mt="xl" onClick={handleLogin} loading={mutation.isLoading}>
             Sign in
           </Button>
+          <Text c="dimmed" size="sm" ta="center" mt={5} style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+            ← Go back
+          </Text>
+
         </Paper>
+        <Text c="dimmed" size="sm" ta="center" mt={5}>
+          Bug?{' '}
+          <Link href="/">
+          <Anchor size="sm" component="button">
+            Fix Bug
+          </Anchor>
+          </Link>
+        </Text>
       </Container>
     
     </div>

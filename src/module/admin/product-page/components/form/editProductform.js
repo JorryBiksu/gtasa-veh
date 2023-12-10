@@ -75,6 +75,10 @@ export default function EditProductForm(props) {
         radius="md"
         title="Edit User"
         centered
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
       >
        <form onSubmit={form.onSubmit(() => mutate())}>
        <TextInput

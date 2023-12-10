@@ -1,11 +1,12 @@
 import { addOrder, addProduct } from "@/common/query/product";
-import { Button, Group, Modal, Select, TextInput, Textarea, ColorInput, DEFAULT_THEME } from "@mantine/core";
+import { Button, Title, Text, Paper, Group, Modal, Container, Select, TextInput, Textarea, ColorInput, DEFAULT_THEME } from "@mantine/core";
 import { useForm } from '@mantine/form';
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from 'react';
 import { notifications } from '@mantine/notifications';
 import checkLoggedInUser from "@/components/Layout/auth/ceklogin";
 import { useRouter } from 'next/router';
+import classes from '../../../../styles/AuthenticationTitle.module.css';
 import { useQuerySaveeh } from '@/features/home/service';
 
 const handleValidateForm = (data, field) => {
@@ -24,20 +25,21 @@ export default function AddOrderForm(props) {
   const loggedInUserId = userInfo ? userInfo.id : null;
   useEffect(() => {
     const user = checkLoggedInUser();
-    if (user) {
-      setIsLoggedIn(true);
-      setUserInfo(user);
-      
-    }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
+    if (!user) {
       notifications.show({
         color: 'red',
         title: '⚠Oops!',
         message: 'You are not signed in yet, please signin first',
       })
       router.push("/signin");
+    }
+  }, []);
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (user) {
+      setIsLoggedIn(true);
+      setUserInfo(user);
+      
     }
   
 
@@ -74,7 +76,7 @@ export default function AddOrderForm(props) {
     validate: {
       username: (value) => handleValidateForm(value, 'Your Name'),
       address: (value) => handleValidateForm(value, 'Address'),
-      category: (value) => handleValidateForm(value, 'Category'),
+      category: (value) => handleValidateForm(value, 'Item'),
       color: (value) => handleValidateForm(value, 'Color'),
       note: (value) => handleValidateForm(value, 'Note'),
       createdBy: (value) => handleValidateForm(value, 'createdBy'),
@@ -116,8 +118,13 @@ console.log('form values:', form.values);
 console.log('user :', loggedInUserId);
 
   return (
-    <>
+    <div className={classes.auths}>
+      <Container size={420} my={40} className={classes.container}>
      <form onSubmit={form.onSubmit((values) => mutate({ ...values, createdBy: loggedInUserId }))}>
+     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+     <Title ta="center" className={classes.title}>
+          Create Order
+        </Title>
         <TextInput
           withAsterisk
           label="Name"
@@ -135,7 +142,7 @@ console.log('user :', loggedInUserId);
         {
   router.query.id === undefined ? (
     <Select
-      label="Category"
+      label="Item"
       description="Please Re-select Item Selected 'Sorry For The Bug'"
       withAsterisk
       style={{ marginTop: "10px" }}
@@ -194,8 +201,16 @@ console.log('user :', loggedInUserId);
           <Button type="submit" loading={isLoading}>
             Order
           </Button>
+         
         </Group>
+        <Group align="flex-end" style={{ marginTop: '20px' }}>
+        <Text c="dimmed" size="sm" ta="center" mt={5} style={{ cursor: 'pointer' }} onClick={() => router.back()}>
+            ← Go back
+          </Text>
+          </Group>
+        </Paper>
       </form>
-    </>
+      </Container>
+    </div>
   );
 }

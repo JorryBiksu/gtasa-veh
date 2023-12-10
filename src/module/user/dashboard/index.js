@@ -18,6 +18,17 @@ export function UserDashboard({ user }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (!user) {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+  }, []);
 
 // Gunakan fungsi-fungsi tersebut sesuai kebutuhan
 
@@ -41,17 +52,8 @@ export function UserDashboard({ user }) {
       setUserInfo(user);
       console.log('userInfo:', user);
     }
-    if (isLoggedIn) {
-      router.push("/dashboard");
-    } else {
-      notifications.show({
-        color: 'red',
-        title: '⚠Oops!',
-        message: 'You are not signed in yet, please signin first',
-      })
-      router.push("/signin");
-    }
   }, []);
+  
 
 
   const autoplayInstance = useRef(autoplay({ delay: 4000 }));  // Adjust the initialization

@@ -1,5 +1,5 @@
 import { editOrder } from "@/common/query/product";;
-import { Button, Group, Modal, Select, TextInput, Textarea, ColorInput, DEFAULT_THEME } from "@mantine/core";
+import { Grid, ScrollArea, Button, Group, Modal, Select, TextInput, Textarea, ColorInput, DEFAULT_THEME } from "@mantine/core";
 import { useForm } from '@mantine/form';
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from 'react';
@@ -123,6 +123,11 @@ console.log('user :', props.detailData.status);
         radius="md"
         title="Edit Product"
         centered
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        scrollAreaComponent={ScrollArea.Autosize}
       >
       <form onSubmit={form.onSubmit(() => mutate())}>
         <TextInput
@@ -181,26 +186,6 @@ console.log('user :', props.detailData.status);
   />
   )
 }
-{isAdmin && (
-  <Select
-    label="Status"
-    description="Please Re-select Item Selected 'Sorry For The Bug'"
-    withAsterisk
-    style={{ marginTop: '10px' }}
-    placeholder="Pick one"
-    data={[
-      { value: 'pending', label: 'Pending' },
-      { value: 'accepted', label: 'Accepted' },
-      { value: 'rejected', label: 'Rejected' },
-    ]}
-    value={form.values.status || props.detailData.status}
-    onChange={(value) => {
-      form.setFieldValue('status', value);
-    }}
-    {...form.getInputProps('status')}
-    clearable
-  />
-)}
 
 
 <ColorInput 
@@ -209,12 +194,41 @@ console.log('user :', props.detailData.status);
         format="rgb" 
         {...form.getInputProps('color')}
         />
-        <TextInput
-          withAsterisk
-          label="Note"
-          placeholder="Input your note"
-          {...form.getInputProps('note')}
-        />
+        <Grid>
+          <Grid.Col span={6}>
+            {/* Status */}
+            {isAdmin && (
+              <Select
+                label="Status"
+                withAsterisk
+                style={{ marginTop: '10px' }}
+                placeholder="Pick one"
+                data={[
+                  { value: 'pending', label: 'Pending' },
+                  { value: 'accepted', label: 'Accepted' },
+                  { value: 'rejected', label: 'Rejected' },
+                ]}
+                value={form.values.status || props.detailData.status}
+                onChange={(value) => {
+                  form.setFieldValue('status', value);
+                }}
+                {...form.getInputProps('status')}
+                clearable
+              />
+            )}
+          </Grid.Col>
+          
+          <Grid.Col span={6}>
+            {/* Note */}
+            <TextInput
+              withAsterisk
+              label="Note"
+              placeholder="Input your note"
+              style={{ marginTop: '10px' }}
+              {...form.getInputProps('note')}
+            />
+          </Grid.Col>
+        </Grid>
       
 
         <Group align="flex-end" style={{ marginTop: '20px' }}>

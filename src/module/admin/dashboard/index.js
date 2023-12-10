@@ -42,6 +42,18 @@ export function AdminDashboard({ user }) {
       console.log('userInfo:', user);
     }
   }, []);
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (!user) {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+  }, []);
+
 
   useEffect(() => {
     // Check user role here
@@ -57,6 +69,9 @@ export function AdminDashboard({ user }) {
 
     }
   }, [userInfo]);
+
+
+
 
   const autoplayInstance = useRef(autoplay({ delay: 4000 }));  // Adjust the initialization
 
