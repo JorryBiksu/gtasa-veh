@@ -1,5 +1,5 @@
 // features/home/service.js
-import { getUserById, getSavehBySkip } from "@/common/query/product";
+import { getUserById, getSavehBySkip, getOrderBySkip } from "@/common/query/product";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useQueryProducts = (skip, options) => {
@@ -28,4 +28,17 @@ const useQuerySaveeh = (skip, options) => {
   );
 };
 
-export { useQueryProducts, useQuerySaveeh };
+const useQueryOorder = (skip, options) => {
+  const queryClient = useQueryClient();
+
+  return useQuery(
+    [`get-oorder`, { skip }],
+    () => getOrderBySkip(skip),
+    {
+      queryClient,
+      ...options,
+    }
+  );
+};
+
+export { useQueryProducts, useQuerySaveeh,  useQueryOorder };

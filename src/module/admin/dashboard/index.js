@@ -102,12 +102,16 @@ export function AdminDashboard({ user }) {
         </Carousel>
         <Container>
         <main>
-      <h1>Halaman Home</h1>
+      <Title m={12.5}>Explore Vehicles</Title>
       <section>
   <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-    {data && data.data && data.data.saveh.map((item) => (
+  {data && data.data && data.data.saveh.length > 0 ? (
+    data.data.saveh.map((item) => (
       <CustomCard key={item.id} data={item} />
-    ))}
+    ))
+  ) : (
+    <Text>No data</Text>
+  )}
   </div>
 </section>
     </main>

@@ -1,48 +1,57 @@
-import { addProduct } from "@/common/query/product";
+import { editUser } from "@/common/query/product";
 import { Button, Group, Modal, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from '@mantine/form';
 import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { notifications } from '@mantine/notifications';
 
 const handleValidateForm = (data, field) => {
   return (data === '' || data === null ? `${field} must filled` : null)
 }
 
-export default function AddDataForm(props) {
+export default function EditUserForm(props) {
+  const {isOpen} = props
   const form = useForm({
     initialValues: {
-      title: '',
-      description: '',
-      category: '',
+      username: '',
+      password: '',
+      role: '',
     },
 
     validate: {
-      title: (value) => handleValidateForm(value, 'Title'),
-      description: (value) => handleValidateForm(value, 'Description'),
-      category: (value) => handleValidateForm(value, 'Category'),
+      username: (value) => handleValidateForm(value, 'Username'),
+      password: (value) => handleValidateForm(value, 'Password'),
+      role: (value) => handleValidateForm(value, 'Role'),
     },
   });
+
+  /**set data to form when form edit open */
+  useEffect(()=>{
+    form.setFieldValue('username', props.detailData.username);
+    form.setFieldValue('password', props.detailData.password);
+    form.setFieldValue('role', props.detailData.role);
+  },[isOpen])
 
   const handleCloseModal = () => {
     props.onClose();
     form.reset();
   }
 
-  const { mutate, isLoading } = useMutation(addProduct, {
+  const { mutate, isLoading } = useMutation(()=>editUser(props.detailData.id, form.values), {
     onSuccess: (response) => {
-      if(response.status === 201) {
+      if(response.status === 200) {
         handleCloseModal();
         props.refetch();
         notifications.show({
           title: 'Success',
-          message: 'Success created data!',
+          message: 'Success edited data!',
         })
       }
     },
     onError: () => {
       notifications.show({
         title: 'Failed',
-        message: 'Failed add data!',
+        message: 'Failed edit data!',
         color: 'red'
       })
     }
@@ -56,34 +65,33 @@ export default function AddDataForm(props) {
         onClose={handleCloseModal}
         size="md"
         radius="md"
-        title="Add Product"
+        title="Edit User"
+        centered
       >
-       <form onSubmit={form.onSubmit((values) => mutate(values))}>
+       <form onSubmit={form.onSubmit(() => mutate())}>
           <TextInput
             withAsterisk
-            label="Title"
-            placeholder="Input your title product"
-            {...form.getInputProps('title')}
+            label="Username"
+            placeholder="Input username"
+            {...form.getInputProps('username')}
           />
           <Textarea
             style={{marginTop:"10px"}}
             withAsterisk
-            label="Description"
-            placeholder="Input your description product"
-            {...form.getInputProps('description')}
+            label="Password"
+            placeholder="Input user password"
+            {...form.getInputProps('password')}
           />
           <Select
-            label="Category"
+            label="Role"
             withAsterisk
             style={{marginTop:"10px"}}
             placeholder="Pick one"
             data={[
-              { value: 'smartphone', label: 'Smartphone' },
-              { value: 'shoes', label: 'Shoes' },
-              { value: 'shirt', label: 'Shirt' },
-              { value: 'laptop', label: 'Laptop' },
+              { value: 'admin', label: 'Admin' },
+              { value: 'User', label: 'User' },
             ]}
-            {...form.getInputProps('category')}
+            {...form.getInputProps('role')}
           />
         <Group align="flex-end" style={{marginTop:"20px"}}>
           <Button

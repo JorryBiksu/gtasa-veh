@@ -1,33 +1,84 @@
-import { deleteProduct, getProducts } from "@/common/query/product";
-import Layout from "@/components/Layout";
-import { ActionIcon, Button, Group, Modal, Text, Title } from "@mantine/core";
+import { deleteUser, getUserBySkip } from "@/common/query/product";
+import Layout from "@/components/Layout/Layout";
+import { Container, ActionIcon, Button, Group, Modal, Text, Title } from "@mantine/core";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
 import { useState } from "react";
-import AddDataForm from "./components/form/addDataForm";
-import EditDataForm from "./components/form/editDataform";
+import AddUserForm from "./components/form/addUserForm";
+import EditUserForm from "./components/form/editUserform";
 import { notifications } from '@mantine/notifications';
+import { useEffect } from "react";
+import classes from "../../../styles/Home.module.css";
+import { useRouter } from "next/router";
+import checkLoggedInUser from "@/components/Layout/auth/ceklogin";
 
-export default function ProductPage(){
+export default function UserPage(){
   const [page, setPage] = useState(1);
+  const router = useRouter();
   const [skip, setSkip] = useState(0);
-  const [idProduct, setIdProduct] = useState(null);
+  const [idUser, setIdUser] = useState(null);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [isOpenAdd, setIsOpenAdd] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [detailData, setDetailData] = useState({
     id: null,
-    title: '',
-    description: '',
-    category: ''
+    username: '',
+    password: '',
+    role: ''
   });
   
-  const { data: products, refetch, isFetching } = useQuery(['list-products', skip], () => getProducts(skip), {
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (user) {
+      setIsLoggedIn(true);
+      setUserInfo(user);
+      console.log('userInfo:', user);
+    }
+    if (isLoggedIn) {
+      router.push("/dashboard");
+    } else {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+    if (isLoggedIn) {
+      router.push("/dashboard");
+    } else {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+  },[]);
+
+  useEffect(() => {
+    // Check user role here
+    if (userInfo && userInfo.role !== 'admin') {
+      // Redirect or handle access denied
+      console.log('Access denied');
+      notifications.show({
+        color: 'red',
+        title: '⚠Sorry!',
+        message: 'You are not admin, cannot access this page',
+      })
+      router.push('/dashboard');
+
+    }
+  }, [userInfo]);
+
+  const { data: user, refetch, isFetching } = useQuery(['list-user', skip], () => getUserBySkip(skip), {
     initialData: []
   });
 
-  const { mutate, isLoading: isLoadingDelete } = useMutation(deleteProduct, {
+  const { mutate, isLoading: isLoadingDelete } = useMutation(deleteUser, {
     onSuccess: (response) => {
       if(response.status === 200) {
         setIsOpenDelete(false);
@@ -55,60 +106,68 @@ export default function ProductPage(){
 
   const onHandleDeleteData = (isOpen, id) => {
     setIsOpenDelete(isOpen)
-    setIdProduct(id)
+    setIdUser(id)
   }
 
   const onHandleEditData = (isOpen, data) => {
     const editData = {
-      title: data.title,
-      description: data.description,
-      category: data.category,
+      username: data.username,
+      password: data.password,
+      role: data.role,
       id: data.id
     }
     setDetailData(editData)
     setIsOpenEdit(isOpen)
   }
 
+  
+
   return (
     <>
-      <Layout title='Product Page'>
-        <main>
+    <Layout title='User Page'>
+      <main className={classes.heroup}> 
+      <Container className={classes.containerup} size="md">
+      <div className={classes.containerupcontent}>
           <section 
             style={{
               display:"flex", 
               justifyContent:"space-between",
               alignItems:"center"
             }}>
-            <Title order={1} style={{marginBottom:"10px"}}>List Product</Title>
+            <Title order={1} style={{marginBottom:"10px"}}>List User</Title>
             <Button
               onClick={()=>setIsOpenAdd(true)}
             >
-              Add Product
+              Add User
             </Button>
           </section>
           <section>
-            <DataTable
-              withBorder
-              minHeight={180}
+            <DataTable             
+              minHeight={510}
               columns={[
                 {
-                  accessor: 'title',
-                  title: 'Title',
+                  accessor: 'id',
+                  title: 'ID',
                   width: 160,
                 },
                 {
-                  accessor: 'category',
-                  title: 'Category',
+                  accessor: 'username',
+                  title: 'Username',
                   width: 160,
                 },
                 {
-                  accessor: 'description',
-                  title: 'Description',
+                  accessor: 'password',
+                  title: 'Password',
+                  width: 160,
+                },
+                {
+                  accessor: 'role',
+                  title: 'Role',
                   width: 160,
                 },
                 {
                   accessor: 'actions',
-                  title: <Text>Aksi</Text>,
+                  title: <Text>Action</Text>,
                   textAlignment: 'center',
                   width: 80,
                   render: (data) => (
@@ -123,14 +182,17 @@ export default function ProductPage(){
                   ),
                 },
               ]}
-              records={products.data?.products}
+              records={user.data?.user}
               fetching={isFetching}
-              totalRecords={products.data?.totalData}
+              totalRecords={user.data?.totalData}
               recordsPerPage={10}
               page={page}
               onPageChange={(p) => onHandleChangePage(p)}
+              sortBy={{ field: 'id', order: 'asc' }} 
             />
           </section>
+          </div>
+          </Container>
         </main>
         <Modal
           opened={isOpenDelete}
@@ -139,6 +201,7 @@ export default function ProductPage(){
           size="sm"
           radius="md"
           title="Konfirmasi hapus data"
+          centered
         >
           <Text size="sm" mb="sm" weight={500}>
             Apakah yakin ingin menghapus data ini?
@@ -147,7 +210,7 @@ export default function ProductPage(){
           <Group align="flex-end">
             <Button
               color="red"
-              onClick={() => mutate(idProduct)}
+              onClick={() => mutate(idUser)}
               loading={isLoadingDelete}
             >
               Hapus
@@ -155,19 +218,19 @@ export default function ProductPage(){
           </Group>
         </Modal>
 
-        <AddDataForm 
+        <AddUserForm 
           isOpen={isOpenAdd} 
           onClose={()=>setIsOpenAdd(false)} 
           refetch={refetch}
         />
 
-        <EditDataForm 
+        <EditUserForm 
           isOpen={isOpenEdit} 
           onClose={()=>setIsOpenEdit(false)} 
           refetch={refetch}
           detailData={detailData}
         />
-      </Layout>
+        </Layout>
     </>
   )
 }

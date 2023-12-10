@@ -1,6 +1,6 @@
 // components/Layout/auth/login.js
 import { useState } from 'react';
-import { useMutation, useQueryClient} from 'react-query';
+import { useMutation, useQueryClient} from '@tanstack/react-query';
 import { TextInput, PasswordInput, Checkbox, Anchor, Paper, Title, Text, Container, Group, Button, Notification, } from '@mantine/core';
 import classes from '../../../styles/AuthenticationTitle.module.css';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ const Login = () => {
   const mutation = useMutation(login, {
     onSuccess: (data) => {
       localStorage.setItem('user', JSON.stringify(data));
-      const welcomeMessage = 'Hello, ${data.username}!';
+      const welcomeMessage = `Hello, ${data.username}!`;
       // Redirect to the dashboard based on the user role or any other logic
       if (data.role === 'admin') {
         router.push('/admin/dashboard');
@@ -34,6 +34,7 @@ const Login = () => {
         title: '✅Success',
         message: welcomeMessage,
       })
+      
       // You can add more roles and redirection logic as needed
     },
 
@@ -48,7 +49,11 @@ const Login = () => {
       })
     } else {
       // Other error
-      showNotification('An error occurred. Please try again later.', 'error');
+      notifications.show({
+        color: 'red',
+        title: '⚠ Failed',
+        message: 'Please check your correct username or password.',
+      });
     }
   },
 });
@@ -63,7 +68,7 @@ const Login = () => {
         <Title ta="center" className={classes.title}>
           Welcome Back!
         </Title>
-        <Text c="black" size="sm" ta="center" mt={5}>
+        <Text c="dimmed" size="sm" ta="center" mt={5}>
           Don&apos;t have an account?{' '}
           <Link href="/signup">
           <Anchor size="sm" component="button">

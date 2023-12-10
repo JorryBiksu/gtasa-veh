@@ -1,26 +1,32 @@
 .userInfoContainer {
   display: flex;
-  align-items: center; /* Align items vertically in the center */
+  align-items: center;
+ /* Align items vertically in the center */
 }
 
 .userDetails {
   display: flex;
-  flex-direction: column; /* Stack children vertically */
-  align-items: center; /* Center items horizontally */ /* Adjust the right margin of the details container as needed */
+  flex-direction: column;
+  align-items: center;
 }
 
 .link {
   display: flex;
-  align-items: center; /* Align items vertically in the center */
+  flex-direction: column;
+  align-items: center;
 }
 
 .userAva {
-  margin-right: 5px;
-  color: white; /* Adjust the right margin of the Avatar as needed */
+  margin: auto;
+  color: white;
 }
+
 .userLink {
-  color: white; /* Adjust the right margin of the Avatar as needed */
+  color: white;
+  margin-top: 5px; /* Sesuaikan jarak di atas userLink sesuai kebutuhan Anda */
+  text-align: center;
 }
+
 
 /* Add any other styling for userLink, or other elements */
 

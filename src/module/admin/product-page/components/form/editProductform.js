@@ -1,34 +1,41 @@
-import { editProduct } from "@/common/query/product";
+import { editSaveh } from "@/common/query/product";
 import { Button, Group, Modal, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from '@mantine/form';
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { notifications } from '@mantine/notifications';
+import Link from "next/link";
 
 const handleValidateForm = (data, field) => {
   return (data === '' || data === null ? `${field} must filled` : null)
 }
 
-export default function EditDataForm(props) {
+export default function EditProductForm(props) {
   const {isOpen} = props
   const form = useForm({
     initialValues: {
-      title: '',
+      name: '',
       description: '',
+      image: '',
+      price: '',
       category: '',
     },
 
     validate: {
-      title: (value) => handleValidateForm(value, 'Title'),
+      name: (value) => handleValidateForm(value, 'Name'),
       description: (value) => handleValidateForm(value, 'Description'),
+      image: (value) => handleValidateForm(value, 'Image'),
+      price: (value) => handleValidateForm(value, 'Price'),
       category: (value) => handleValidateForm(value, 'Category'),
     },
   });
 
   /**set data to form when form edit open */
   useEffect(()=>{
-    form.setFieldValue('title', props.detailData.title);
+    form.setFieldValue('name', props.detailData.name);
     form.setFieldValue('description', props.detailData.description);
+    form.setFieldValue('image', props.detailData.image);
+    form.setFieldValue('price', props.detailData.price);
     form.setFieldValue('category', props.detailData.category);
   },[isOpen])
 
@@ -37,7 +44,7 @@ export default function EditDataForm(props) {
     form.reset();
   }
 
-  const { mutate, isLoading } = useMutation(()=>editProduct(props.detailData.id, form.values), {
+  const { mutate, isLoading } = useMutation(()=>editSaveh(props.detailData.id, form.values), {
     onSuccess: (response) => {
       if(response.status === 200) {
         handleCloseModal();
@@ -57,6 +64,7 @@ export default function EditDataForm(props) {
     }
   });
 
+  console.log('form values:', form.values);
   return (
     <>
       <Modal
@@ -65,21 +73,35 @@ export default function EditDataForm(props) {
         onClose={handleCloseModal}
         size="md"
         radius="md"
-        title="Edit Product"
+        title="Edit User"
+        centered
       >
        <form onSubmit={form.onSubmit(() => mutate())}>
-          <TextInput
+       <TextInput
             withAsterisk
-            label="Title"
-            placeholder="Input your title product"
-            {...form.getInputProps('title')}
+            label="Name"
+            placeholder="Input vehicle name"
+            {...form.getInputProps('name')}
           />
           <Textarea
             style={{marginTop:"10px"}}
             withAsterisk
             label="Description"
-            placeholder="Input your description product"
+            placeholder="Input vehicle description"
             {...form.getInputProps('description')}
+          />
+          <TextInput
+            withAsterisk
+            label="Image"
+            description="Please search the URL image in there" 
+            placeholder="Input vehicle image"
+            {...form.getInputProps('image')}
+          />
+    <TextInput
+            withAsterisk
+            label="Price"
+            placeholder="Input vehicle price"
+            {...form.getInputProps('price')}
           />
           <Select
             label="Category"
@@ -87,10 +109,10 @@ export default function EditDataForm(props) {
             style={{marginTop:"10px"}}
             placeholder="Pick one"
             data={[
-              { value: 'smartphone', label: 'Smartphone' },
-              { value: 'shoes', label: 'Shoes' },
-              { value: 'shirt', label: 'Shirt' },
-              { value: 'laptop', label: 'Laptop' },
+              { value: 'Cars', label: 'Cars' },
+              { value: 'Bike', label: 'Bike' },
+              { value: 'Boat', label: 'Boat' },
+              { value: 'Aircraft', label: 'Aircraft' },
             ]}
             {...form.getInputProps('category')}
           />

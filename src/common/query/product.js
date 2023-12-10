@@ -14,6 +14,10 @@ export async function addUser(params) {
   const data = await API.post(`/add-user`, params)
   return data;
 }
+export async function registerUser(params) {
+  const data = await API.post(`/register`, params)
+  return data;
+}
 
 export async function editUser(id,params) {
   const data = await API.put(`/edit-user?id=${id}`, params)
@@ -48,5 +52,63 @@ export async function editSaveh(id,params) {
 
 export async function deleteSaveh(id) {
   const data = await API.delete(`/delete-saveh?id=${id}`)
+  return data;
+}
+//order
+export async function getOrderBySkip (skip, sortBy = { field: 'id', order: 'asc' })  {
+  const { field, order } = sortBy;
+  const data = await API.get(`/get-order?skip=${skip}&sortBy=${field}&order=${order}`);
+  return data;
+}
+
+// common/query/product.js
+
+// common/query/product.js
+
+// common/query/product.js
+
+export async function getOrdersBySkip(skip, userId, admin, sortBy = { field: 'id', order: 'asc' }) {
+  const { field, order } = sortBy;
+  let apiUrl = `/get-orders?skip=${skip}&sortBy=${field}&order=${order}`;
+
+  if (!admin) {
+    apiUrl += `&createdBy=${userId}`;
+  }
+
+  const cachedData = localStorage.getItem(apiUrl);
+
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
+  const data = await API.get(apiUrl);
+
+  // Cache the data in localStorage
+  localStorage.setItem(apiUrl, JSON.stringify(data));
+
+  return data;
+}
+
+
+
+
+
+export async function getOrderById(id) {
+  const data = await API.get(`/order?id=${id}`)
+  return data;
+}
+
+export async function addOrder(params) {
+  const data = await API.post(`/add-order`, params)
+  return data;
+}
+
+export async function editOrder(id,params) {
+  const data = await API.put(`/edit-order?id=${id}`, params)
+  return data;
+}
+
+export async function deleteOrder(id) {
+  const data = await API.delete(`/delete-order?id=${id}`)
   return data;
 }

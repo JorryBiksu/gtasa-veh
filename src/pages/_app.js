@@ -1,7 +1,7 @@
 // _app.js
 import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
-import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
+import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Notifications } from '@mantine/notifications';
 import Service from '@/features/home/service';

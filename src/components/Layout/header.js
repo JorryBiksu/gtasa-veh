@@ -10,25 +10,15 @@ import { useRouter } from 'next/router';
 
 const links = [
   { link: '/dashboard', label: 'Dashboard' },
-  {
-    link: '#1',
-    label: 'Model',
-    links: [
-      { link: '/docs', label: 'Cars' },
-      { link: '/resources', label: 'Bike' },
-      { link: '/community', label: 'Boat' },
-      { link: '/blog', label: 'Aircraft' },
-    ],
-  },
-  { link: '/about', label: 'Shop Now' },
+  { link: '/order', label: 'Shop Now', },
   { link: '/pricing', label: 'About' },
   {
     link: '#2',
     label: 'Panel',
     links: [
-      { link: '/faq', label: 'Product' },
-      { link: '/demo', label: 'User' },
-      { link: '/forums', label: 'Forums' },
+      { link: '/admin/product-page', label: 'Product' },
+      { link: '/admin/user-panel', label: 'User' },
+      { link: '/order-page', label: 'Order' },
     ],
   },
 ];
@@ -54,7 +44,7 @@ export function HeaderMenu() {
       setUserInfo(user);
     }
   };
-
+ 
   const filteredLinks = links.map(linkItem => {
     if (linkItem.links) {
       linkItem.links = linkItem.links.filter(sublink => {

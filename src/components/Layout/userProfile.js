@@ -62,10 +62,11 @@ export function UserInfoAction() {
           onClose={() => setShowModal(false)}
           size="sm"
           radius="md"
-          title="Konfirmasi logout"
+          title="Logout Confirmation"
+          centered
         >
           <Text size="sm" mb="sm" weight={500}>
-            Apakah yakin ingin logout?
+            Are you sure for logout?
           </Text>
 
           <Group align="flex-end">

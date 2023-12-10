@@ -8,7 +8,7 @@
 }
 .hero1 {
   position: relative;
-  background-color: var(--mantine-color-white);
+  background-image: url(https://images5.alphacoders.com/596/596248.jpg);
   background-size: cover;
   background-position: center;
   min-height: 100vh; /* Set a minimum height to cover the viewport */
@@ -24,6 +24,32 @@
   z-index: 1;
   position: relative;
 }
+.heroup {
+  position: relative;
+  background-image: url(https://images2.alphacoders.com/112/1125180.png);
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh; /* Set a minimum height to cover the viewport */
+}
+
+.containerup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh; /* Set a minimum height to cover the viewport */
+  position: relative;
+}
+
+.containerupcontent {
+  margin-top: 75px;
+ /* Adjust the margin to move the content below */
+}
+
+.modalContent {
+  margin-top: 50px; /* Adjust the margin to move the modal down */
+}
+
+
 .container1 {
   display: flex;
   flex-direction: column;
@@ -34,6 +60,7 @@
   z-index: 1;
   position: relative;
 }
+
 
 /* Home.module.css */
 

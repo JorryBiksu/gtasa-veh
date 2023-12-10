@@ -11,6 +11,20 @@
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
 }
+.auths {
+  position: fixed;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  min-height: 100vh;
+  backdrop-filter: blur(5px);
+  background-image: url(https://i.ibb.co/09qRBQb/adsd.jpg);
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
 
 .container {
   margin: 0;

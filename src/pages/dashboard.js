@@ -1,10 +1,10 @@
 // pages/dashboard.js
 import Layout from '@/components/Layout/Layout';
 import { UserDashboard } from '@/module/user/dashboard';
-const Home = () => (
+const HomeUser = () => (
   <Layout>
     <UserDashboard />
   </Layout>
 );
 
-export default Home;
+export default HomeUser;

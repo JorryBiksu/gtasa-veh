@@ -1,29 +1,73 @@
 import { Carousel } from '@mantine/carousel';
+import { notifications } from '@mantine/notifications';
 import classes from '../../../styles/Home.module.css';
-import { Container, Title } from '@mantine/core';
+import { Container, Title, ActionIcon, Group, Text } from '@mantine/core';
 import { useRef } from 'react';
-import Autoplay from 'embla-carousel-autoplay';
-import { deleteProduct, getProducts } from "@/common/query/product";
-import Layout from "@/components/Layout";
+import autoplay from 'embla-carousel-autoplay';  // Adjust the import
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { DataTable } from "mantine-datatable";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import checkLoggedInUser from '@/components/Layout/auth/ceklogin';
+import { useRouter } from 'next/router';
+import CustomCard from '@/components/Layout/card';
+import { IconEye } from "@tabler/icons-react";
+import { useQuerySaveeh } from '@/features/home/service';
 
-export function UserDashboard() {
-  const autoplay = useRef(Autoplay({ delay: 4000 }));
+export function UserDashboard({ user }) {
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+
+// Gunakan fungsi-fungsi tersebut sesuai kebutuhan
+
   
+
+  const [page, setPage] = useState(1);
+  const [skip, setSkip] = useState(0);
+ 
+  const onHandleChangePage = (page) => {
+    const from = (page - 1) * 10;
+    setPage(page)
+    setSkip(from)
+  }
+  const { data, isFetching } = useQuerySaveeh(skip);
+  console.log (data, isFetching );
+
+  useEffect(() => {
+    const user = checkLoggedInUser();
+    if (user) {
+      setIsLoggedIn(true);
+      setUserInfo(user);
+      console.log('userInfo:', user);
+    }
+    if (isLoggedIn) {
+      router.push("/dashboard");
+    } else {
+      notifications.show({
+        color: 'red',
+        title: '⚠Oops!',
+        message: 'You are not signed in yet, please signin first',
+      })
+      router.push("/signin");
+    }
+  }, []);
+
+
+  const autoplayInstance = useRef(autoplay({ delay: 4000 }));  // Adjust the initialization
+
   return (
     <div className={classes.hero1}>
       <Container className={classes.container1} size="fluid" style={{ margin: 0, padding: 0 }}>
         <Carousel 
-          plugins={[autoplay.current]}
-          onMouseEnter={autoplay.current.stop}
-          onMouseLeave={autoplay.current.reset}
+          plugins={[autoplayInstance.current]}  // Adjust the reference
+          onMouseEnter={autoplayInstance.current.stop}
+          onMouseLeave={autoplayInstance.current.reset}
           slideSize="100%" 
-          height="50vw"  // Set a relative height using viewport units
+          height="50vw"
           align="center"
           controlsOffset="md" 
-          controlSize="4vw"  // Set a relative control size using viewport units
+          controlSize="4vw"
           loop
         >
           <Carousel.Slide>
@@ -54,38 +98,19 @@ export function UserDashboard() {
         </Carousel>
         <Container>
         <main>
-          <section 
-            style={{
-              display:"flex", 
-              justifyContent:"space-between",
-              alignItems:"center"
-            }}>
-            <h1>Explore Vehicles</h1>
-          </section>
-          <section>
-            <DataTable
-              withBorder
-              minHeight={180}
-              columns={[
-                {
-                  accessor: 'title',
-                  title: 'Title',
-                  width: 160,
-                },
-                {
-                  accessor: 'category',
-                  title: 'Category',
-                  width: 160,
-                },
-                {
-                  accessor: 'description',
-                  title: 'Description',
-                  width: 160,
-                },
-              ]}
-            />
-          </section>
-        </main>
+      <Title m={12.5}>Explore Vehicles</Title>
+      <section>
+  <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+  {data && data.data && data.data.saveh.length > 0 ? (
+    data.data.saveh.map((item) => (
+      <CustomCard key={item.id} data={item} />
+    ))
+  ) : (
+    <Text>No data</Text>
+  )}
+  </div>
+</section>
+    </main>
         </Container>
       </Container>
     </div>
