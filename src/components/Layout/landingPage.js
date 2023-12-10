@@ -35,7 +35,7 @@ export function LandingPage() {
         <Group className={classes.item}>
           <Title className={classes.title}>Best dealership in San Andreas</Title>
           <Text className={classes.description} size="xl" mt="xl">
-          Gear up for San Andreas' Ultimate Auto Extravaganza! Unleash Your Style, Choose Your Ride – The Coolest Dealership Experience Awaits You!
+          Gear up for San Andreas&apos; Ultimate Auto Extravaganza! Unleash Your Style, Choose Your Ride – The Coolest Dealership Experience Awaits You!
           </Text>
 
           <Button variant="gradient" size="xl" radius="xl" className={classes.control} onClick={handleGetStarted}>
